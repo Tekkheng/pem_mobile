@@ -1,200 +1,76 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
+import 'home.dart';
+import 'profile.dart';
+import 'about.dart';
+
 
 void main() {
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Pertemuan 4",
-      home: MyScreen(),
+    return const MaterialApp(
+      home: MainScreen(),
     );
   }
 }
 
-class MyScreen extends StatefulWidget {
-  const MyScreen({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  _MyScreenState createState() => _MyScreenState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _MyScreenState extends State<MyScreen> {
+class _MainScreenState extends State<MainScreen> {
+  final PageController _pageController = PageController(initialPage: 0); // Hapus inisialisasi _pageController di sini
+  final List<Widget> _pages = [const HomePage(), const ProfilePage(), const AboutPage()];
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    MyBody(),
-    ProfileTab(),
-    AboutTab(),
-  ];
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(),
-      body: _children[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: (int index) {
+      appBar: AppBar(
+        title: const Text('My Portofolio'),
+        backgroundColor: Colors.purple,
+      ),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
           setState(() {
             _currentIndex = index;
           });
         },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.info),
-            label: 'About',
-          ),
+        children: _pages,
+      ),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.info_outline), label: 'About'),
         ],
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+            _pageController.animateToPage(index, duration: const Duration(milliseconds: 500), curve: Curves.ease);
+          });
+        },
       ),
     );
   }
 }
 
-class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
-  const MyAppBar({Key? key}) : super(key: key);
-
-  @override
-  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      title: const Center(child: Text('Pertemuan ke 4')),
-    );
-  }
-}
-
-class MyBody extends StatelessWidget {
-  const MyBody({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    Color color = Theme.of(context).primaryColor;
-
-    Widget titleSection = Container(
-      padding: const EdgeInsets.all(32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: const Text(
-                    'Universitas Esa Unggul',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const Text(
-                  'Tangerang, Indonesia',
-                  style: TextStyle(
-                    color: Colors.blueAccent,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.blue[800],
-          ),
-          const Text('4.5'),
-        ],
-      ),
-    );
-
-    return Column(
-      children: [
-        ClipRRect(
-          child: Image.asset(
-            'assets/images/esaunggul.jpg',
-            alignment: Alignment.center,
-            height: 200,
-            width: 800,
-            fit: BoxFit.cover,
-          ),
-        ),
-        titleSection,
-        Container(
-          margin: const EdgeInsets.only(top: 15),
-          padding: const EdgeInsets.only(left: 10),
-          alignment: Alignment.topLeft,
-          child: const Text('Universitas Esa Unggul'),
-        ),
-        
-        Text('Tangerang, Indonesia', style: TextStyle(color: Colors.blueAccent), textAlign: TextAlign.left),
-
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildButtonColumn(color, Icons.call, 'CALL'),
-            _buildButtonColumn(color, Icons.near_me, 'ROUTE'),
-            _buildButtonColumn(color, Icons.share, 'SHARE'),
-          ],
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 50),
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Back'),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Column _buildButtonColumn(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(icon, color: color),
-        Container(
-          margin: const EdgeInsets.only(top: 8),
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w400,
-              color: color,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ProfileTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('Profile Tab Content'),
-    );
-  }
-}
-
-class AboutTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text('About Tab Content'),
-    );
-  }
-}
