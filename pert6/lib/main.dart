@@ -22,7 +22,7 @@ class MyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber,
+        backgroundColor: const Color.fromARGB(255, 138, 71, 239),
         title: const Center(
           child: Text('Pertemuan 6'),
         ),
