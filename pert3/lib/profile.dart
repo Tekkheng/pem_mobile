@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_string_escapes
 
 import 'package:flutter/material.dart';
+import 'package:pert3/profile_image.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -21,10 +22,7 @@ class PortfolioScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            CircleAvatar(
-              radius: 70,
-              backgroundImage: AssetImage('assets/images/portoImage.jpg'),
-            ),
+            ChangeImage(),
             SizedBox(height: 20),
             Text(
               'Tek Kheng',

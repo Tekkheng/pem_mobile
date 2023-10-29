@@ -30,7 +30,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final PageController _pageController = PageController(initialPage: 0); // Hapus inisialisasi _pageController di sini
-  final List<Widget> _pages = [const HomePage(), const ProfilePage(), const AboutPage()];
+  final List<Widget> _pages = [const HomePage(),  const ProfilePage(), const AboutPage()];
   int _currentIndex = 0;
 
   @override
