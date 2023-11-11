@@ -23,13 +23,6 @@ class _ReportsPage extends State<ReportsPage> {
   }
 
   @override
-  // Widget build(BuildContext context) {
-  //   return Center(
-  //       child: BarChart(BarChartData(
-  //     maxY: 100,
-  //     minY: 0,
-  //   )));
-  // }
   Widget build(BuildContext context) {
     return SafeArea(
       child: SfCircularChart(
