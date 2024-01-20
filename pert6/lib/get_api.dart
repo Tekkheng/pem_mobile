@@ -19,11 +19,10 @@ class _GetApiState extends State<GetApi> {
     super.initState();
     fetchData();
   }
-
   Future<void> fetchData() async {
     try {
       final response = await http.get(
-        Uri.parse('https://uts.djambred.my.id/api/student'),
+        Uri.parse('http://localhost/api/register'),
       );
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body) as List;
